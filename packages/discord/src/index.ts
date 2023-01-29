@@ -1,6 +1,6 @@
 import { Context, Schema } from 'koishi'
 
-export const name = 'discord-presence'
+export const name = 'presence-discord'
 export const using = ['presence']
 
 export interface Config {}

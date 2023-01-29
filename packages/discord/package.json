@@ -1,5 +1,5 @@
 {
-  "name": "koishi-plugin-discord-presence",
+  "name": "koishi-plugin-presence-discord",
   "description": "WakaTime Presence Plugin",
   "version": "1.0.0",
   "main": "lib/index.js",

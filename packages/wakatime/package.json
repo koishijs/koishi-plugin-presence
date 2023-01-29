@@ -1,5 +1,5 @@
 {
-  "name": "koishi-plugin-wakatime-presence",
+  "name": "koishi-plugin-presence-wakatime",
   "description": "WakaTime Presence Plugin",
   "version": "1.0.0",
   "main": "lib/index.js",
