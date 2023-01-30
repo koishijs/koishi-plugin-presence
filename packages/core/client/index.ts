@@ -1,11 +1,12 @@
 import { Context, deepEqual, send } from '@koishijs/client'
-import { Payload } from 'koishi-plugin-presence'
+import type Presence from 'koishi-plugin-presence'
 
 export default (ctx: Context) => {
-  let oldValue: Payload
+  let oldValue: Presence.Data
   function update() {
-    const value: Payload = {
+    const value: Presence.Data = {
       visibility: document.visibilityState,
+      userAgent: navigator.userAgent,
     }
     if (deepEqual(value, oldValue)) return
     oldValue = value

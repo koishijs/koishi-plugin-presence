@@ -25,7 +25,7 @@ export function apply(ctx: Context, config: Config) {
     const wakatimeApi = `https://wakatime.com/api/v1/users/current/heartbeats?api_key=${config.apiKey}`
 
     ctx.setInterval(() => {
-        if (ctx.presence.visibility === 'visible') sendHeartbeat()
+        if (ctx.presence.data.visible) sendHeartbeat()
     }, HEARTBEAT_INTERVAL)
 
     function sendHeartbeat() {
