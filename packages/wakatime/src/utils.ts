@@ -1,17 +1,9 @@
-export function quote(str: string): string {
-    if (str.includes(' ')) return `"${str.replace('"', '\\"')}"`;
-    return str;
-}
-
-export function apiKeyInvalid(key?: string): string {
-    const err = 'Invalid api key... check https://wakatime.com/settings for your key';
-    if (!key) return err;
+export function apiKeyVertify(key?: string): boolean {
     const re = new RegExp(
         '^(waka_)?[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$',
         'i',
     );
-    if (!re.test(key)) return err;
-    return '';
+    return re.test(key)
 }
 
 export function formatDate(date: Date): String {
