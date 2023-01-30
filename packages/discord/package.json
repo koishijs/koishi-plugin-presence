@@ -47,7 +47,7 @@
     "koishi-plugin-presence": "^1.0.0"
   },
   "devDependencies": {
-    "koishi": "^4.11.3",
+    "koishi": "^4.11.4",
     "koishi-plugin-presence": "^1.0.0"
   }
 }

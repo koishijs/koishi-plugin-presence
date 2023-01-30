@@ -52,10 +52,10 @@
     "koishi": "^4.10.4"
   },
   "devDependencies": {
-    "@koishijs/client": "^5.1.14",
-    "@koishijs/plugin-console": "^5.1.14",
+    "@koishijs/client": "^5.2.1",
+    "@koishijs/plugin-console": "^5.2.1",
     "@types/node": "^18.11.18",
-    "koishi": "^4.11.3",
+    "koishi": "^4.11.4",
     "typescript": "^4.9.4"
   }
 }
