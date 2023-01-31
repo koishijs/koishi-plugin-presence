@@ -12,8 +12,8 @@ export default (ctx: Context) => {
     oldValue = value
     send('presence/update', value)
   }
-  const timer = setTimeout(update, 1000)
+  const timer = setInterval(update, 1000)
   ctx.on('dispose', () => {
-    clearTimeout(timer)
+    clearInterval(timer)
   })
 }

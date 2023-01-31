@@ -44,10 +44,10 @@
   },
   "peerDependencies": {
     "koishi": "^4.10.3",
-    "koishi-plugin-presence": "^1.0.0"
+    "koishi-plugin-presence": "^1.0.1"
   },
   "devDependencies": {
     "koishi": "^4.11.4",
-    "koishi-plugin-presence": "^1.0.0"
+    "koishi-plugin-presence": "^1.0.1"
   }
 }
