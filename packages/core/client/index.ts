@@ -5,7 +5,7 @@ export default (ctx: Context) => {
   let oldValue: Presence.Data
   function update() {
     const value: Presence.Data = {
-      visibility: document.visibilityState,
+      visible: document.visibilityState === 'visible',
       userAgent: navigator.userAgent,
     }
     if (deepEqual(value, oldValue)) return
