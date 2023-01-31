@@ -40,6 +40,10 @@ export function formatDate(date: Date): String {
         } ${ampm}`;
 }
 
+export function formatToDay() {
+    return new Date().toLocaleDateString().replace(/\//g, '-')
+}
+
 export function obfuscateKey(key: string): string {
     let newKey = '';
     if (key) {
