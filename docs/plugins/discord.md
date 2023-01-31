@@ -1,3 +1,3 @@
-# koishi-plugin-discord-presence
+# koishi-plugin-presence-discord
 
 开发中。
