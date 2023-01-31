@@ -18,45 +18,40 @@ export const Config: Schema<Config> = Schema.object({
 export function apply(ctx: Context, config: Config) {
     const logger = ctx.logger('presence-wakatime')
     const HEARTBEAT_INTERVAL = 15000
+    const baseURL = 'https://wakatime.com/api/v1'
 
-    logger.info('WakaTime Initializing...')
-    const akVertify = apiKeyVertify(config.apiKey ?? '')
-    //if(!akVertify) logger.error('Invalid api key... check https://wakatime.com/settings for your key')
-    const wakatimeApi = `https://wakatime.com/api/v1/users/current/heartbeats?api_key=${config.apiKey}`
+    ctx.on('ready', () => {
+        logger.info('Initializing...')
+        const akVertify = apiKeyVertify(config.apiKey ?? '')
+        if (!akVertify) logger.error('Invalid api key... check https://wakatime.com/settings for your key')
 
-    ctx.setInterval(() => {
-        if (ctx.presence.data.visible) sendHeartbeat()
-    }, HEARTBEAT_INTERVAL)
+        ctx.setInterval(() => {
+            if (ctx.presence.data.visible) sendHeartbeat()
+        }, HEARTBEAT_INTERVAL)
+    })
 
-    function sendHeartbeat() {
-        logger.info('Sending Heartbeat')
+    async function sendHeartbeat() {
+        logger.debug('Sending Heartbeat')
         try {
-            ctx.http('POST', wakatimeApi, {
+            await ctx.http('POST', baseURL + '/users/current/heartbeats?api_key=' + config.apiKey, {
                 headers: {
                     'Content-Type': 'application/json',
-                    //'Authorization': 'Basic ' + Buffer.from(config.apiKey).toString('base64'),
                     'User-Agent': `Koishi/${version} wakatimeKoishi/${require('../package.json').version}`
                 },
                 data: {
-                    type: 'domain',
-                    entity: '',
+                    type: 'app',
+                    entity: 'koishi',
                     time: Date.now() / 1000,
-                    language: 'Koishi'
-                }
-            }).then(response => {
-                if (response.status === 200 || response.status === 201 || response.status === 202) {
-                    logger.debug(`last heartbeat sent ${formatDate(new Date())}`)
+                    project: 'Koishi'
                 }
             })
+            logger.debug(`last heartbeat sent ${formatDate(new Date())}`)
         } catch (error) {
-            logger.error(error)
-            // logger.error(`API Error ${error.status}: ${error.data}`)
-            // let error_msg
-            // if (error && error?.status == 401)
-            //     error_msg = 'Invalid WakaTime Api Key';
-            // else
-            //     error_msg = `Error sending heartbeat (${error.status}).`;
-            // logger.error(error_msg);
+            const code = error.response.status
+            logger.error(`Error sending heartbeat (${code}).`)
+            if (error && code === 401) {
+                logger.error('Invalid WakaTime Api Key')
+            }
         }
     }
 }
