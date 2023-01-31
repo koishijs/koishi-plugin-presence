@@ -7,19 +7,17 @@
   "files": [
     "lib"
   ],
-  "contributors": [
-    "Shigma <shigma10826@gmail.com>"
-  ],
+  "author": "Lipraty <i@lonay.me>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/koishijs/assets.git",
-    "directory": "packages/remote"
+    "url": "git+https://github.com/koishijs/koishi-plugin-presence.git",
+    "directory": "packages/wakatime"
   },
   "bugs": {
-    "url": "https://github.com/koishijs/assets/issues"
+    "url": "https://github.com/koishijs/koishi-plugin-presence/issues"
   },
-  "homepage": "https://assets.koishi.chat/plugins/remote.html",
+  "homepage": "https://presence.koishi.chat/plugins/wakatime.html",
   "keywords": [
     "bot",
     "chatbot",
