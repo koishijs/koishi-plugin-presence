@@ -1,11 +1,12 @@
 {
   "name": "koishi-plugin-presence-wakatime",
   "description": "WakaTime Presence Plugin",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
-    "lib"
+    "lib",
+    "dist"
   ],
   "author": "Lipraty <i@lonay.me>",
   "license": "MIT",
@@ -45,7 +46,7 @@
     "koishi-plugin-presence": "^1.0.1"
   },
   "devDependencies": {
-    "koishi": "^4.11.4",
+    "koishi": "^4.11.6",
     "koishi-plugin-presence": "^1.0.1"
   }
 }
