@@ -18,15 +18,22 @@ const logger = new Logger('wakatime')
 export const name = 'presence-wakatime'
 export const using = ['presence']
 
-export interface Config {
+export type Config = {
     apiKey: string
-    proxy: string
+} & {
+    heartbeatInterval: number
+    heartTimeout: number
 }
 
-export const Config: Schema<Config> = Schema.object({
-    apiKey: Schema.string().required().role('secret').description('Wakatime api key'),
-    proxy: Schema.string().role('link').description('配置代理地址')
-})
+export const Config: Schema<Config> = Schema.intersect([
+    Schema.object({
+        apiKey: Schema.string().required().role('secret').description('Wakatime api key')
+    }).description('基础设置'),
+    Schema.object({
+        heartbeatInterval: Schema.number().min(3000).max(36000).step(1).default(15000).description('心跳发送间隔 (ms)'),
+        heartTimeout: Schema.number().min(12000).max(60000).step(1).default(32000).description('心跳超时时间 (ms)')
+    }).description('心跳包设置')
+])
 
 class wakatimeProvider extends DataService<string>{
     constructor(ctx: Context, private config: Config) {
@@ -50,7 +57,6 @@ class wakatimeProvider extends DataService<string>{
 }
 
 export function apply(ctx: Context, config: Config) {
-    const HEARTBEAT_INTERVAL = 15000
 
     ctx.plugin(wakatimeProvider, config)
 
@@ -68,7 +74,12 @@ export function apply(ctx: Context, config: Config) {
 
         ctx.setInterval(() => {
             if (ctx.presence.data.visible) sendHeartbeat()
-        }, HEARTBEAT_INTERVAL)
+        }, config.heartbeatInterval)
+        logger.info('Initialed')
+    })
+
+    ctx.on('presence/update', () => {
+        logger.debug(`Koishi WebUI: ${ctx.presence.data.visible ? 'focusing' : 'unfocused'}`)
     })
 
     async function sendHeartbeat() {
@@ -84,12 +95,13 @@ export function apply(ctx: Context, config: Config) {
                     entity: 'koishi',
                     time: Date.now() / 1000,
                     project: 'Koishi'
-                }
+                },
+                timeout: config.heartTimeout
             })
             logger.debug(`last heartbeat sent ${formatDate(new Date())}`)
         } catch (error) {
             const code = error.response.status ?? 40001
-            logger.error(`Error sending heartbeat (${code}).`)
+            logger.error(`Error sending heartbeat :${error}`)
             if (error && code === 401) {
                 logger.error('Invalid WakaTime Api Key')
             }
